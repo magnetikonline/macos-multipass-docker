@@ -20,10 +20,11 @@ Launch new Multipass virtual machine. **Note:** Setting the desired machine name
 
 ```sh
 $ export MACHINE_NAME="my-docker"
+$ export PATH_TO_PROJECTS="/path/to/projects"
 
 $ multipass launch \
   --cloud-init ./cloud-init-docker.yaml \
-  --mount /path/to/projects \
+  --mount $PATH_TO_PROJECTS \
   --name $MACHINE_NAME \
     20.04
 
