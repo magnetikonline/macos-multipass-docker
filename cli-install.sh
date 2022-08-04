@@ -24,12 +24,14 @@ function main {
 	sudo chown root: "$BIN_DIR/docker"
 	docker --version
 
-	# bash completion
-	sudo curl \
-		--location \
-		--output "/usr/local/etc/bash_completion.d/docker" \
-		--silent \
-			"https://raw.githubusercontent.com/docker/cli/$latest/contrib/completion/bash/docker"
+	if [[ -d /usr/local/etc/bash_completion.d ]]; then
+		# bash completion
+		sudo curl \
+			--location \
+			--output "/usr/local/etc/bash_completion.d/docker" \
+			--silent \
+				"https://raw.githubusercontent.com/docker/cli/$latest/contrib/completion/bash/docker"
+	fi
 
 	# install docker-compose Docker CLI plugin
 	local dockerPluginDir="$HOME/.docker/cli-plugins"
