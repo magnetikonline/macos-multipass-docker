@@ -53,13 +53,13 @@ Overview of [`cloud-init-docker.yaml`](cloud-init-docker.yaml) tasks:
 - A series of `runcmd` commands to install required Docker Engine packages.
 - An addition of a `/etc/systemd/system/docker.service.d/httpapi.conf` systemd unit drop-in, which will start `/usr/bin/dockerd` with the HTTP API listening on all networks.
 
-Next, we will install `docker` and `docker-compose` CLI tools to the macOS _host_ via [`cli-install.sh`](cli-install.sh) script:
+Next, we will install `docker` and `docker-compose` CLI tools to the macOS _host_ via the [`cli-install.sh`](cli-install.sh) script:
 
 ```sh
 $ ./cli-install.sh
 
-# Docker version 20.10.17, build 100c701
-# Docker Compose version v2.6.1
+# Docker version 20.10.18, build b40c2f6
+# Docker Compose version v2.11.0
 ```
 
 Finally, configure a `DOCKER_HOST` environment variable, allowing the `docker` CLI to locate Docker Engine running within the Multipass Ubuntu VM:

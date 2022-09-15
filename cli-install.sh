@@ -9,7 +9,12 @@ fi
 
 
 function main {
-	# docker binary
+	if [[ ! -x $(command -v jq) ]]; then
+		echo "Error: expecting to find jq" >&2
+		exit 1
+	fi
+
+	# install docker CLI
 	local latest=$(curl --silent "https://api.github.com/repos/docker/cli/tags" | \
 		jq --raw-output \
 			'[.[] | select(.name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$")) | .name] | first'
@@ -33,21 +38,25 @@ function main {
 				"https://raw.githubusercontent.com/docker/cli/$latest/contrib/completion/bash/docker"
 	fi
 
-	# install docker-compose Docker CLI plugin
+	# install docker-compose CLI plugin
 	local dockerPluginDir="$HOME/.docker/cli-plugins"
 	mkdir -p "$dockerPluginDir"
+
+	local dockerComposePlugin="$dockerPluginDir/docker-compose"
 	local latest=$(curl --silent "https://api.github.com/repos/docker/compose/tags" | \
 		jq --raw-output \
 			'[.[] | select(.name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$")) | .name] | first'
 	)
 
+	rm -f "$dockerComposePlugin"
 	curl \
 		--location \
-		--output "$dockerPluginDir/docker-compose" \
+		--output "$dockerComposePlugin" \
 		--silent \
 			"https://github.com/docker/compose/releases/download/$latest/docker-compose-darwin-$ARCH_ARCH"
 
-	chmod u+x "$dockerPluginDir/docker-compose"
+	chmod u+x "$dockerComposePlugin"
+	xattr -dr com.apple.quarantine "$dockerComposePlugin"
 	echo -e '#!/bin/bash -e\n\ndocker compose --compatibility "$@"' | sudo tee "$BIN_DIR/docker-compose" >/dev/null
 	sudo chmod +x "$BIN_DIR/docker-compose"
 	docker-compose version
