@@ -58,8 +58,8 @@ Next, we will install `docker` and `docker-compose` CLI tools to the macOS _host
 ```sh
 $ ./cli-install.sh
 
-# Docker version 20.10.18, build b40c2f6
-# Docker Compose version v2.11.0
+# Docker version 20.10.22, build b40c2f6
+# Docker Compose version v2.15.1
 ```
 
 Finally, configure a `DOCKER_HOST` environment variable, allowing the `docker` CLI to locate Docker Engine running within the Multipass Ubuntu VM:
@@ -72,14 +72,14 @@ $ export DOCKER_HOST="tcp://$MACHINE_NAME.local:2375"
 $ docker version
 
 # Client:
-#  Version:           20.10.17
+#  Version:           20.10.22
 #  API version:       1.41
 #  etc.
 #
 # Server: Docker Engine - Community
 #  Engine:
-#   Version:          20.10.17
-#   API version:      1.41 (minimum version 1.12)
+#   Version:          23.0.0
+#   API version:      1.42 (minimum version 1.12)
 #  etc.
 ```
 
