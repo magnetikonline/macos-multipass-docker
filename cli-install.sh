@@ -10,7 +10,7 @@ fi
 
 function main {
 	if [[ ! -x $(command -v jq) ]]; then
-		echo "Error: expecting to find jq" >&2
+		echo "Error: expecting to find jq, see https://stedolan.github.io/jq/" >&2
 		exit 1
 	fi
 
