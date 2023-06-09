@@ -16,7 +16,9 @@ Step by step notes for installing Docker under macOS via Canonical's [Multipass]
 
 Install [Multipass for macOS](https://multipass.run/docs/installing-on-macos) (obviously).
 
-Launch new Multipass virtual machine. **Note:** Setting the desired machine name in `MACHINE_NAME` environment variable for use in all following command examples:
+Next, launch a new Multipass virtual machine.
+
+**Note:** Setting the desired machine name in `MACHINE_NAME` environment variable for use in all following command examples:
 
 ```sh
 $ export MACHINE_NAME="my-docker"
@@ -33,6 +35,7 @@ $ multipass info $MACHINE_NAME
 # Name:           MACHINE_NAME
 # State:          Running
 # IPv4:           --
+
 # Release:        --
 # Image hash:     e2e27e9b9a82 (Ubuntu 20.04 LTS)
 # Load:           --
@@ -53,7 +56,7 @@ Overview of [`cloud-init-docker.yaml`](cloud-init-docker.yaml) tasks:
 - A series of `runcmd` commands to install required Docker Engine packages.
 - An addition of a `/etc/systemd/system/docker.service.d/httpapi.conf` systemd unit drop-in, which will start `/usr/bin/dockerd` with the HTTP API listening on all networks.
 
-Next, we will install `docker` and `docker-compose` CLI tools to the macOS _host_ via the [`cli-install.sh`](cli-install.sh) script:
+Next, we will install `docker` and `docker-compose` CLI tools to the macOS _host_ via [`cli-install.sh`](cli-install.sh) (**Note:** script requires [`jq`](https://stedolan.github.io/jq/)):
 
 ```sh
 $ ./cli-install.sh
@@ -92,5 +95,4 @@ Done!
 - https://multipass.run/docs/installing-on-macos
 - https://ubuntu.com/blog/using-cloud-init-with-multipass
 - https://docs.docker.com/engine/install/ubuntu/
-- https://niklasmtj.de/blog/alternative-docker-installation-macos-with-multipass
 - https://cloudinit.readthedocs.io/en/latest/topics/examples.html
