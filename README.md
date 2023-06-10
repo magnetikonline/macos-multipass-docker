@@ -21,15 +21,19 @@ Next, launch a new Multipass virtual machine.
 **Note:** Setting the desired machine name in `MACHINE_NAME` environment variable for use in all following command examples:
 
 ```sh
-$ export MACHINE_NAME="my-docker"
-$ export PATH_TO_PROJECTS="/path/to/projects"
+$ MACHINE_NAME="my-docker"
+$ PATH_TO_PROJECTS="/path/to/projects"
 
 $ multipass launch \
   --cloud-init ./cloud-init-docker.yaml \
-  --mount $PATH_TO_PROJECTS \
   --name $MACHINE_NAME \
     20.04
 
+$ multipass stop $MACHINE_NAME
+$ multipass mount --type native \
+  $PATH_TO_PROJECTS $MACHINE_NAME
+
+$ multipass start $MACHINE_NAME
 $ multipass info $MACHINE_NAME
 
 # Name:           MACHINE_NAME
@@ -48,7 +52,8 @@ Breaking this down:
 
 - Create new virtual machine using Ubuntu `20.04`.
 - Configure VM using `cloud-init-docker.yaml` - which will install and configure Docker dependencies.
-- Create a local directory mount (`path/to/projects`) within the VM using [sshfs](https://github.com/libfuse/sshfs) back to the macOS _host_. This is important for `Dockerfile` operations such as [`ADD`](https://docs.docker.com/engine/reference/builder/#add) - ensuring Docker Engine within the VM guest can successfully map files stored within the macOS host filesystem.
+- Stop the instance in order to create a mount to (`path/to/projects`) within the VM _guest_ back to the macOS _host_. This is important for `Dockerfile` operations such as [`ADD`](https://docs.docker.com/engine/reference/builder/#add) - ensuring Docker Engine within the VM guest can successfully map files stored within the macOS host filesystem.
+	- **Note:** using `multipass mount --type native` to create a native QEMU host mount, rather than the (slower) default of [SSHFS](https://github.com/libfuse/sshfs).
 
 Overview of [`cloud-init-docker.yaml`](cloud-init-docker.yaml) tasks:
 
