@@ -68,8 +68,8 @@ Next, install `docker` and `docker-compose` CLI tools to the macOS _host_ via [`
 ```sh
 $ ./cli-install.sh
 
-# Docker version 20.10.22, build b40c2f6
-# Docker Compose version v2.15.1
+# Docker version 24.0.7, build afdd53b
+# Docker Compose version v2.23.0
 ```
 
 Finally, configure a `DOCKER_HOST` environment variable, allowing the `docker` CLI to locate Docker Engine running within the Multipass Ubuntu VM:
@@ -82,14 +82,14 @@ $ export DOCKER_HOST="tcp://$MACHINE_NAME.local:2375"
 $ docker version
 
 # Client:
-#  Version:           20.10.22
-#  API version:       1.41
+#  Version:           24.0.7
+#  API version:       1.43
 #  etc.
 #
 # Server: Docker Engine - Community
 #  Engine:
-#   Version:          23.0.0
-#   API version:      1.42 (minimum version 1.12)
+#   Version:          24.0.7
+#   API version:      1.43 (minimum version 1.12)
 #  etc.
 ```
 
@@ -102,4 +102,4 @@ Done!
 - https://multipass.run/docs/installing-on-macos
 - https://ubuntu.com/blog/using-cloud-init-with-multipass
 - https://docs.docker.com/engine/install/ubuntu/
-- https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+- https://cloudinit.readthedocs.io/en/latest/reference/examples.html
