@@ -61,7 +61,9 @@ Overview of [`cloud-init-docker.yaml`](cloud-init-docker.yaml) tasks:
 - A series of `runcmd` commands to install required Docker Engine packages.
 - An addition of a `/etc/systemd/system/docker.service.d/httpapi.conf` systemd unit drop-in, which will start `/usr/bin/dockerd` with the HTTP API listening on all networks.
 
-Next, we will install `docker` and `docker-compose` CLI tools to the macOS _host_ via [`cli-install.sh`](cli-install.sh) (**Note:** script requires [`jq`](https://stedolan.github.io/jq/)):
+Next, install `docker` and `docker-compose` CLI tools to the macOS _host_ via [`cli-install.sh`](cli-install.sh).
+
+**Note:** script requires [`jq`](https://jqlang.github.io/jq/) to be installed:
 
 ```sh
 $ ./cli-install.sh
