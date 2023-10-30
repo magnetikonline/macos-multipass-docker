@@ -27,7 +27,7 @@ $ PATH_TO_PROJECTS="/path/to/projects"
 $ multipass launch \
   --cloud-init ./cloud-init-docker.yaml \
   --name $MACHINE_NAME \
-    20.04
+    22.04
 
 $ multipass stop $MACHINE_NAME
 $ multipass mount --type native \
@@ -40,8 +40,9 @@ $ multipass info $MACHINE_NAME
 # State:          Running
 # IPv4:           --
 
-# Release:        --
-# Image hash:     e2e27e9b9a82 (Ubuntu 20.04 LTS)
+# Release:        Ubuntu 22.04.3 LTS
+# Image hash:     9256911742f0 (Ubuntu 22.04 LTS)
+# CPU(s):         --
 # Load:           --
 # Disk usage:     --
 # Memory usage:   --
@@ -50,16 +51,16 @@ $ multipass info $MACHINE_NAME
 
 Breaking this down:
 
-- Create new virtual machine using Ubuntu `20.04`.
+- Create new virtual machine using Ubuntu `22.04`.
 - Configure VM using `cloud-init-docker.yaml` - which will install and configure Docker dependencies.
 - Stop the instance in order to create a mount to (`path/to/projects`) within the VM _guest_ back to the macOS _host_. This is important for `Dockerfile` operations such as [`ADD`](https://docs.docker.com/engine/reference/builder/#add) - ensuring Docker Engine within the VM guest can successfully map files stored within the macOS host filesystem.
 	- **Note:** using `multipass mount --type native` to create a native QEMU host mount, rather than the (slower) default of [SSHFS](https://github.com/libfuse/sshfs).
 
-Overview of [`cloud-init-docker.yaml`](cloud-init-docker.yaml) tasks:
+Overview of tasks performed by [`cloud-init-docker.yaml`](cloud-init-docker.yaml):
 
-- The `avahi-daemon` provides a well-known hostname for the Multipass VM via mDNS/Bonjour.
+- The `avahi-daemon` provides a well-known hostname to the Multipass VM via mDNS/Bonjour from the host (e.g. your macOS).
 - A series of `runcmd` commands to install required Docker Engine packages.
-- An addition of a `/etc/systemd/system/docker.service.d/httpapi.conf` systemd unit drop-in, which will start `/usr/bin/dockerd` with the HTTP API listening on all networks.
+- An addition of a `/etc/systemd/system/docker.service.d/httpapi.conf` systemd unit drop-in, which starts the `/usr/bin/dockerd` daemon with the HTTP API listening on all networks.
 
 Next, install `docker` and `docker-compose` CLI tools to the macOS _host_ via [`cli-install.sh`](cli-install.sh).
 
