@@ -33,7 +33,7 @@ function main {
 		# bash completion
 		sudo curl \
 			--location \
-			--output "/usr/local/etc/bash_completion.d/docker" \
+			--output /usr/local/etc/bash_completion.d/docker \
 			--silent \
 				"https://raw.githubusercontent.com/docker/cli/$latest/contrib/completion/bash/docker"
 	fi
@@ -43,9 +43,9 @@ function main {
 	mkdir -p "$dockerPluginDir"
 
 	local dockerComposePlugin="$dockerPluginDir/docker-compose"
-	local latest=$(curl --silent "https://api.github.com/repos/docker/compose/tags" | \
+	local latest=$(curl --silent "https://api.github.com/repos/docker/compose/releases" | \
 		jq --raw-output \
-			'[.[] | select(.name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$")) | .name] | first'
+			'[.[] | select(.tag_name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$")) | .tag_name] | first'
 	)
 
 	rm -f "$dockerComposePlugin"
