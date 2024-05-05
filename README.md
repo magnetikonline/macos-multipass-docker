@@ -18,7 +18,8 @@ Install [Multipass for macOS](https://multipass.run/docs/installing-on-macos) (o
 
 Next, launch a new Multipass virtual machine.
 
-**Note:** Setting the desired machine name in `MACHINE_NAME` environment variable for use in all following command examples:
+> [!NOTE]
+> Setting desired Multipass virtual machine name in `MACHINE_NAME` environment variable, used in all following command examples.
 
 ```sh
 $ MACHINE_NAME="my-docker"
