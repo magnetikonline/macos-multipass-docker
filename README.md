@@ -3,7 +3,8 @@
 Step by step notes for installing Docker under macOS via Canonical's [Multipass](https://multipass.run/).
 
 - [What this provides](#what-this-provides)
-- [Installation steps](#installation-steps)
+- [Installation](#installation)
+- [Tips](#tips)
 - [Reference](#reference)
 
 ## What this provides
@@ -12,7 +13,7 @@ Step by step notes for installing Docker under macOS via Canonical's [Multipass]
 - `docker` CLI tool within the guest VM (_technically_ not needed, but handy if working inside VM).
 - Installed `docker` and `docker-compose` CLI tools (with Bash completion) on the macOS _host_.
 
-## Installation steps
+## Installation
 
 Install [Multipass for macOS](https://multipass.run/docs/installing-on-macos) (obviously).
 
@@ -98,6 +99,22 @@ $ docker version
 Once proven working, `DOCKER_HOST` can be added to Dotfiles / `~/.bash_profile` / etc.
 
 Done!
+
+## Tips
+
+If the Multipass service ever falls away, such as with the following message:
+
+```sh
+$ multipass list
+list failed: cannot connect to the multipass socket
+```
+
+it can be restarted with the following commands:
+
+```sh
+$ sudo launchctl unload /Library/LaunchDaemons/com.canonical.multipassd.plist
+$ sudo launchctl load -w /Library/LaunchDaemons/com.canonical.multipassd.plist
+```
 
 ## Reference
 
