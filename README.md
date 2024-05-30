@@ -5,6 +5,8 @@ Step by step notes for installing Docker under macOS via Canonical's [Multipass]
 - [What this provides](#what-this-provides)
 - [Installation](#installation)
 - [Tips](#tips)
+	- [Disable primary instance](#disable-primary-instance)
+	- [Restarting `multipassd`](#restarting-multipassd)
 - [Reference](#reference)
 
 ## What this provides
@@ -101,6 +103,29 @@ Once proven working, `DOCKER_HOST` can be added to Dotfiles / `~/.bash_profile` 
 Done!
 
 ## Tips
+
+### Disable primary instance
+
+Multipass has the concept of a [primary instance](https://multipass.run/docs/primary-instance), which is automatically used for commands such as `start` and `shell`. This behaviour can be somewhat _undesirable_ - where it is preferred to use defined machine names against all `multipass` commands.
+
+Luckily the primary instance mode can be disabled by setting an empty [`client.primary-name`](https://multipass.run/docs/primary-name) value:
+
+```sh
+$ multipass set client.primary-name=
+```
+
+the enablement of this mode can now be confirmed:
+
+```sh
+$ multipass start
+Name argument or --all is required
+Note: the primary instance is disabled.
+
+$ multipass shell
+The primary instance is disabled, please provide an instance name.
+```
+
+### Restarting `multipassd`
 
 If the Multipass service ever falls away, such as with the following message:
 
