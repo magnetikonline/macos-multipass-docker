@@ -1,6 +1,6 @@
 # macOS Multipass Docker
 
-Step by step notes for installing Docker under macOS via Canonical's [Multipass](https://multipass.run/).
+Step by step notes for installing Docker under macOS via Canonical's [Multipass](https://canonical.com/multipass).
 
 - [What this provides](#what-this-provides)
 - [Installation](#installation)
@@ -17,7 +17,7 @@ Step by step notes for installing Docker under macOS via Canonical's [Multipass]
 
 ## Installation
 
-Install [Multipass for macOS](https://multipass.run/docs/installing-on-macos) (obviously).
+Install [Multipass for macOS](https://documentation.ubuntu.com/multipass/en/latest/how-to-guides/install-multipass/) (obviously).
 
 Next, launch a new Multipass virtual machine.
 
@@ -57,7 +57,7 @@ Breaking this down:
 
 - Create new virtual machine using Ubuntu `22.04`.
 - Configure VM using `cloud-init-docker.yaml` - which will install and configure Docker dependencies.
-- Stop the instance in order to create a mount to (`path/to/projects`) within the VM _guest_ back to the macOS _host_. This is important for `Dockerfile` operations such as [`ADD`](https://docs.docker.com/engine/reference/builder/#add) - ensuring Docker Engine within the VM guest can successfully map files stored within the macOS host filesystem.
+- Stop the instance in order to create a mount to (`path/to/projects`) within the VM _guest_ back to the macOS _host_. This is important for `Dockerfile` operations such as [`ADD`](https://docs.docker.com/reference/dockerfile/#add) - ensuring Docker Engine within the VM guest can successfully map files stored within the macOS host filesystem.
 	- **Note:** using `multipass mount --type native` to create a native QEMU host mount, rather than the (slower) default of [SSHFS](https://github.com/libfuse/sshfs).
 
 Overview of tasks performed by [`cloud-init-docker.yaml`](cloud-init-docker.yaml):
@@ -68,7 +68,7 @@ Overview of tasks performed by [`cloud-init-docker.yaml`](cloud-init-docker.yaml
 
 Next, install `docker` and `docker-compose` CLI tools to the macOS _host_ via [`cli-install.sh`](cli-install.sh).
 
-**Note:** script requires [`jq`](https://jqlang.github.io/jq/) to be installed:
+**Note:** script requires [`jq`](https://jqlang.org/) to be installed:
 
 ```sh
 $ ./cli-install.sh
@@ -106,9 +106,9 @@ Done!
 
 ### Disable primary instance
 
-Multipass has the concept of a [primary instance](https://multipass.run/docs/primary-instance), which is automatically used for commands such as `start` and `shell`. This behaviour can be somewhat _undesirable_ - where it is preferred to use defined machine names against all `multipass` commands.
+Multipass has the concept of a [primary instance](https://documentation.ubuntu.com/multipass/en/latest/how-to-guides/manage-instances/use-the-primary-instance/), which is automatically used for commands such as `start` and `shell`. This behaviour can be somewhat _undesirable_ - where it is preferred to use defined machine names against all `multipass` commands.
 
-Luckily the primary instance mode can be disabled by setting an empty [`client.primary-name`](https://multipass.run/docs/primary-name) value:
+The primary instance mode can be disabled by setting an empty [`client.primary-name`](https://documentation.ubuntu.com/multipass/en/latest/reference/settings/client-primary-name/) value:
 
 ```sh
 $ multipass set client.primary-name=
@@ -143,7 +143,7 @@ $ sudo launchctl load -w /Library/LaunchDaemons/com.canonical.multipassd.plist
 
 ## Reference
 
-- https://multipass.run/docs/installing-on-macos
+- https://documentation.ubuntu.com/multipass/en/latest/how-to-guides/install-multipass/
 - https://ubuntu.com/blog/using-cloud-init-with-multipass
 - https://docs.docker.com/engine/install/ubuntu/
 - https://cloudinit.readthedocs.io/en/latest/reference/examples.html
