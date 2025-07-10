@@ -31,7 +31,7 @@ $ PATH_TO_PROJECTS="/path/to/projects"
 $ multipass launch \
   --cloud-init ./cloud-init-docker.yaml \
   --name $MACHINE_NAME \
-    22.04
+    24.04
 
 $ multipass stop $MACHINE_NAME
 $ multipass mount --type native \
@@ -42,10 +42,11 @@ $ multipass info $MACHINE_NAME
 
 # Name:           MACHINE_NAME
 # State:          Running
+# Snapshots:      0
 # IPv4:           --
 
-# Release:        Ubuntu 22.04.3 LTS
-# Image hash:     9256911742f0 (Ubuntu 22.04 LTS)
+# Release:        Ubuntu 24.04.2 LTS
+# Image hash:     bbecbb88100e (Ubuntu 24.04 LTS)
 # CPU(s):         --
 # Load:           --
 # Disk usage:     --
@@ -55,7 +56,7 @@ $ multipass info $MACHINE_NAME
 
 Breaking this down:
 
-- Create new virtual machine using Ubuntu `22.04`.
+- Create new virtual machine using Ubuntu `24.04`.
 - Configure VM using `cloud-init-docker.yaml` - which will install and configure Docker dependencies.
 - Stop the instance in order to create a mount to (`path/to/projects`) within the VM _guest_ back to the macOS _host_. This is important for `Dockerfile` operations such as [`ADD`](https://docs.docker.com/reference/dockerfile/#add) - ensuring Docker Engine within the VM guest can successfully map files stored within the macOS host filesystem.
 	- **Note:** using `multipass mount --type native` to create a native QEMU host mount, rather than the (slower) default of [SSHFS](https://github.com/libfuse/sshfs).
@@ -73,8 +74,8 @@ Next, install `docker` and `docker-compose` CLI tools to the macOS _host_ via [`
 ```sh
 $ ./cli-install.sh
 
-# Docker version 24.0.7, build afdd53b
-# Docker Compose version v2.23.0
+# Docker version 28.3.2, build 578ccf6
+# Docker Compose version v2.38.2
 ```
 
 Finally, configure a `DOCKER_HOST` environment variable, allowing the `docker` CLI to locate Docker Engine running within the Multipass Ubuntu VM:
@@ -87,14 +88,14 @@ $ export DOCKER_HOST="tcp://$MACHINE_NAME.local:2375"
 $ docker version
 
 # Client:
-#  Version:           24.0.7
-#  API version:       1.43
+#  Version:           28.3.2
+#  API version:       1.51
 #  etc.
 #
 # Server: Docker Engine - Community
 #  Engine:
-#   Version:          24.0.7
-#   API version:      1.43 (minimum version 1.12)
+#   Version:          28.3.2
+#   API version:      1.51 (minimum version 1.24)
 #  etc.
 ```
 
@@ -147,3 +148,4 @@ $ sudo launchctl load -w /Library/LaunchDaemons/com.canonical.multipassd.plist
 - https://ubuntu.com/blog/using-cloud-init-with-multipass
 - https://docs.docker.com/engine/install/ubuntu/
 - https://cloudinit.readthedocs.io/en/latest/reference/examples.html
+- https://github.com/canonical/multipass/issues/2387

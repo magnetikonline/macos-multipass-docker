@@ -12,8 +12,9 @@ write_files:
     permissions: '0644'
 
 runcmd:
-  - curl --location --silent https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor --output /etc/apt/trusted.gpg.d/docker.gpg
-  - add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu $(lsb_release --codename --short) stable"
+  - curl --location --silent --output /etc/apt/keyrings/docker.asc https://download.docker.com/linux/ubuntu/gpg
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release --codename --short) stable" | sudo tee /etc/apt/sources.list.d/docker.list
   - apt-get update
-  - apt-get --no-install-recommends --yes install containerd.io docker-ce docker-ce-cli
+  - apt-get --no-install-recommends --yes install containerd.io docker-buildx-plugin docker-ce docker-ce-cli
+  - apt-get clean
   - usermod --append --groups docker ubuntu
