@@ -15,14 +15,14 @@ function main {
 	fi
 
 	# install docker CLI
-	local latest=$(curl --silent "https://api.github.com/repos/docker/cli/tags" | \
+	local latest=$(curl --silent "https://api.github.com/repos/docker/cli/tags" |
 		jq --raw-output \
 			'[.[] | select(.name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$")) | .name] | first'
 	)
 
 	local archivePath=$(mktemp -d)
 	curl --location --silent \
-		"https://download.docker.com/mac/static/stable/$ARCH_ARCH/docker-${latest#v}.tgz" | \
+		"https://download.docker.com/mac/static/stable/$ARCH_ARCH/docker-${latest#v}.tgz" |
 			tar --directory "$archivePath" --extract --gzip
 
 	sudo mv "$archivePath/docker/docker" "$BIN_DIR"
@@ -42,21 +42,21 @@ function main {
 	local dockerPluginDir="$HOME/.docker/cli-plugins"
 	mkdir -p "$dockerPluginDir"
 
-	local dockerComposePlugin="$dockerPluginDir/docker-compose"
-	local latest=$(curl --silent "https://api.github.com/repos/docker/compose/releases" | \
+	local dockerPluginCompose="$dockerPluginDir/docker-compose"
+	local latest=$(curl --silent "https://api.github.com/repos/docker/compose/releases" |
 		jq --raw-output \
 			'[.[] | select(.tag_name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$")) | .tag_name] | first'
 	)
 
-	rm -f "$dockerComposePlugin"
+	rm -f "$dockerPluginCompose"
 	curl \
 		--location \
-		--output "$dockerComposePlugin" \
+		--output "$dockerPluginCompose" \
 		--silent \
 			"https://github.com/docker/compose/releases/download/$latest/docker-compose-darwin-$ARCH_ARCH"
 
-	chmod u+x "$dockerComposePlugin"
-	xattr -dr com.apple.quarantine "$dockerComposePlugin"
+	chmod u+x "$dockerPluginCompose"
+	xattr -dr com.apple.quarantine "$dockerPluginCompose"
 	echo -e '#!/bin/bash -e\n\ndocker compose --compatibility "$@"' | sudo tee "$BIN_DIR/docker-compose" >/dev/null
 	sudo chmod +x "$BIN_DIR/docker-compose"
 	docker-compose version
