@@ -51,7 +51,7 @@ $ multipass info $MACHINE_NAME
 # Load:           --
 # Disk usage:     --
 # Memory usage:   --
-# Mounts:         /path/to/projects => /path/to/projects
+# Mounts:         /path/to/projects => /home/ubuntu/projects
 ```
 
 Breaking this down:
