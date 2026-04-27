@@ -144,8 +144,8 @@ $ sudo launchctl load -w /Library/LaunchDaemons/com.canonical.multipassd.plist
 
 ## Reference
 
-- https://documentation.ubuntu.com/multipass/en/latest/how-to-guides/install-multipass/
+- https://documentation.ubuntu.com/multipass/latest/how-to-guides/install-multipass/
 - https://ubuntu.com/blog/using-cloud-init-with-multipass
 - https://docs.docker.com/engine/install/ubuntu/
-- https://cloudinit.readthedocs.io/en/latest/reference/examples.html
+- https://docs.cloud-init.io/en/latest/reference/examples.html
 - https://github.com/canonical/multipass/issues/2387
