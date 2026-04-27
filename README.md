@@ -31,7 +31,7 @@ $ PATH_TO_PROJECTS="/path/to/projects"
 $ multipass launch \
   --cloud-init ./cloud-init-docker.yaml \
   --name $MACHINE_NAME \
-    24.04
+    26.04
 
 $ multipass stop $MACHINE_NAME
 $ multipass mount --type native \
@@ -45,8 +45,8 @@ $ multipass info $MACHINE_NAME
 # Snapshots:      0
 # IPv4:           --
 
-# Release:        Ubuntu 24.04.2 LTS
-# Image hash:     bbecbb88100e (Ubuntu 24.04 LTS)
+# Release:        Ubuntu 26.04 LTS
+# Image hash:     9daa955c3d4c (Ubuntu 26.04 LTS)
 # CPU(s):         --
 # Load:           --
 # Disk usage:     --
@@ -56,7 +56,7 @@ $ multipass info $MACHINE_NAME
 
 Breaking this down:
 
-- Create new virtual machine using Ubuntu `24.04`.
+- Create Ubuntu `26.04` based virtual machine.
 - Configure VM using `cloud-init-docker.yaml` - which will install and configure Docker dependencies.
 - Stop the instance in order to create a mount to (`path/to/projects`) within the VM _guest_ back to the macOS _host_. This is important for `Dockerfile` operations such as [`ADD`](https://docs.docker.com/reference/dockerfile/#add) - ensuring Docker Engine within the VM guest can successfully map files stored within the macOS host filesystem.
 	- **Note:** using `multipass mount --type native` to create a native QEMU host mount, rather than the (slower) default of [SSHFS](https://github.com/libfuse/sshfs).
@@ -88,14 +88,14 @@ $ export DOCKER_HOST="tcp://$MACHINE_NAME.local:2375"
 $ docker version
 
 # Client:
-#  Version:           28.3.2
-#  API version:       1.51
+#  Version:           29.4.1
+#  API version:       1.54
 #  etc.
 #
 # Server: Docker Engine - Community
 #  Engine:
-#   Version:          28.3.2
-#   API version:      1.51 (minimum version 1.24)
+#   Version:          29.4.1
+#   API version:      1.54 (minimum version 1.40)
 #  etc.
 ```
 
@@ -135,7 +135,7 @@ $ multipass list
 list failed: cannot connect to the multipass socket
 ```
 
-it can be restarted with the following commands:
+it can be restarted via the following commands:
 
 ```sh
 $ sudo launchctl unload /Library/LaunchDaemons/com.canonical.multipassd.plist
